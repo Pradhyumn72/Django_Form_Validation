@@ -1,0 +1,31 @@
+<a href="{% url 'new' %}">Register</a>
+<a href="">Login</a>
+<br>
+{{msg}}
+{% if register1 %}
+Registration Page
+
+ 
+<br>
+<form action="{% url 'registerdata' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+name: <input type="text" name="name" id=""><br>
+email: <input type="email" name="email" id=""><br>
+contact: <input type="number" name="contact" id=""><br>
+image: <input type="file" name="image" accept=".jpeg, .png" id=""><br>
+document: <input type="file" name="document" accept=".pdf" id="" ><br>
+password: <input type="password" name="pass"> <br>
+confirm pass: <input type="password" name="cpass"> <br>
+<input type="submit" value="register"> 
+
+</form>
+{% endif %}
+
+{% if login %}
+<form action="{% url 'login '%}" method="post" enctype="multipart/form-data">
+email: <input type="email">
+pass: <input type="password">
+</form>
+
+{% else %}
+{% endif %}

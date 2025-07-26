@@ -1,0 +1,19 @@
+# Django stuff:
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+
+# VS Code or IDE files
+.vscode/
+.idea/
+
+# Static and media
+staticfiles/
+media/
+
+# Migrations
+*/migrations/
+
+# OS files
+.DS_Store

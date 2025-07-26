@@ -1,0 +1,7 @@
+
+<form action="(% url 'login'%)" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+    email: <input type="email" > <br>
+    pass : <input type="password"><br>
+    <input type="submit" value="login">
+</form>
