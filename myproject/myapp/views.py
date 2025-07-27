@@ -15,7 +15,7 @@ def registerdata(req):
         c = req.POST.get('contact') 
         i=req.FILES.get('image') 
         d= req.FILES.get("document") 
-        p=req.POST.get('pass')
+        p=req.POST.get('password')
         cp=req.POST.get('cpass')
         data=Student.objects.filter(email=e)
         if data:
@@ -30,9 +30,13 @@ def registerdata(req):
                 msg='password and confirm password not matched'
                 return render(req,'landing.html',{'msg':msg})
 def login(req):
+    print(req.method)
+    print(req.POST)
     if req.method=='POST':
         e=req.POST.get('email')
-        p=req.POST.get('pass')
+        p=req.POST.get('password')
+        print(e)
+        print(p)
         dataa=Student.objects.filter(email=e)
         if dataa:
             user=Student.objects.get(email=e)
@@ -46,6 +50,8 @@ def login(req):
         else:
             emr='email does not exist, kindly register'
             return render(req,'registration.html',{'emr':emr})
+    else:
+        return render(req,'login.html')
         
 def dashboard(req):
     return render(req,'dashboard.html')
