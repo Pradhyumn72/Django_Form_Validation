@@ -6,9 +6,8 @@ from django.http import HttpResponse
 # Create your views here.
 def landing(req):
     return render(req,'landing.html')
+
 def register(req):
-    return render(req,'landing.html',{'register1':'register'})
-def registerdata(req):
     if req.method=="POST":
         name =req.POST.get('name') 
         e = req.POST.get('email') 
@@ -19,30 +18,32 @@ def registerdata(req):
         cp=req.POST.get('cpass')
         data=Student.objects.filter(email=e)
         if data:
-            msg="email already exists"
-            return render (req,'landing.html',{'msg':msg,'registration':'registration'})
+            eme="email already exists"
+            return render (req,'registration.html',{'eme':eme,'registration':'registration'})
         else:
             if p==cp:
                 Student.objects.create(firstname=name,email=e,contact=c,image=i,document=d,password=p)
-                msg="Registration Done"
+                rdn="Registration Done"
                 return render(req,'login.html',{'login':'login'})
             else:
-                msg='password and confirm password not matched'
-                return render(req,'landing.html',{'msg':msg})
+                perr='password and confirm password not matched'
+                return render(req,'registration.html',{'perr':perr})
+    return render(req,'registration.html')
+
 def login(req):
-    print(req.method)
-    print(req.POST)
+   
     if req.method=='POST':
         e=req.POST.get('email')
         p=req.POST.get('password')
-        print(e)
-        print(p)
+        
         dataa=Student.objects.filter(email=e)
         if dataa:
             user=Student.objects.get(email=e)
+            print(user.contact)
             passs=user.password
             if passs==p:
-                dataa={'name':user.firstname,'email':user.email,'conatct':user.contact,'image':user.image,'document':user.document,'password':user.password}
+                dataa={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+                
                 return render(req,'dashboard.html',{'dataa':dataa})
             else:
                 err='email and pass do not match'

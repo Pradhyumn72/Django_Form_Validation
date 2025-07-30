@@ -25,11 +25,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.landing,name='landing'),
     path('register/',views.register,name='register'),
-    path('registerdata/',views.registerdata,name='registerdata'),
     path('login/',views.login,name='login'),
     path('dashboard/',views.dashboard,name='dashboard'),
     
     
     
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
