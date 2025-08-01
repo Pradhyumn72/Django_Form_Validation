@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Student
 from django.http import HttpResponse
 from django.urls import reverse
-
+from urllib import urlencode
 
 
 # Create your views here.
@@ -26,7 +26,7 @@ def register(req):
             if p==cp:
                 Student.objects.create(firstname=name,email=e,contact=c,image=i,document=d,password=p)
                 rdn="Registration Done"
-                return redirect(reverse('login'))
+                return redirect('login')
             else:
                 perr='password and confirm password not matched'
                 return render(req,'registration.html',{'perr':perr})
@@ -41,15 +41,14 @@ def login(req):
         dataa=Student.objects.filter(email=e)
         if dataa:
             user=Student.objects.get(email=e)
-            print(user.contact)
             passs=user.password
             if passs==p:
                 dataa={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
-                
-                return redirect(reverse('dashboard') + f'?user={username}')
+                # reverse method and url encode method for taking data of user to dashboard
+                return redirect('dashboard') 
             else:
                 err='email and pass do not match'
-                return render(req,'login.html',{'err':err})
+                return render(req,'login.html',{'err':err,'email':e})
         else:
             emr='email does not exist, kindly register'
             return render(req,'registration.html',{'emr':emr})

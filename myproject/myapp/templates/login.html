@@ -1,8 +1,8 @@
 
 <form action="{% url 'login' %}" method="post">
 {% csrf_token %}
-{{emr}}
-Email: <input type="email" name="email" id=""><br>
+
+Email: <input type="email" name="email" id="" value="{{email}}"><br>
 {{err}} <br>
 Password: <input type="password" name="password" id=""> <br>
 <button type="submit">Login</button>
