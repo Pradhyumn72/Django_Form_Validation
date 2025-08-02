@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from .models import Student
 from django.http import HttpResponse
+from django.urls import reverse
+from urllib.parse import urlencode
 
 
 # Create your views here.
@@ -30,8 +32,7 @@ def register(req):
                 return render(req,'registration.html',{'perr':perr})
     return render(req,'registration.html')
 
-from django.urls import reverse
-from urllib import urlencode
+
 
 
 def login(req):
@@ -45,10 +46,14 @@ def login(req):
             user=Student.objects.get(email=e)
             passs=user.password
             if passs==p:
+                # url=reverse('dashboard')
+                # dataa=urlencode({'id':user.id})
+                # return redirect(f'{url}?{dataa}')
+                req.session['id']=user.id
                 url=reverse('dashboard')
-                data=urlencode({'id':data.id})
-                return redirect(f'{url}?{data}')
+                return redirect(f'{url}')
                 # reverse method and url encode method for taking data of user to dashboard
+                # also using redirect to avoid showing data of user in url panel
                 
             else:
                 err='email and pass do not match'
@@ -60,13 +65,24 @@ def login(req):
         return render(req,'login.html')
         
 def dashboard(req):
-    pk=req.GET.get('id')
+    # pk=req.GET.get('id')
+    pk=req.session['id']
     user=Student.objects.get(id=pk)
-    data={'name':user.name,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+    data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
     return render(req,'dashboard.html',{'data':data})
     # we use filter in login as we want empty output in order to print the error message if we take get then code will not be read and error will be displayed
         # print(name,e,c,i,d,sep=",")
         # Student.objects.create(firstname=name,email=e,contact=c,image=i,document=d)
         # return HttpResponse("registration done")
 
-        
+# delete: key
+# flush: whole session
+def logout(req):
+    req.session.flush()
+    return redirect('landing')
+
+def Query(req):
+    pk=req.session['id']
+    user=Student.objects.get(id=pk)
+    data={'name':user.firstname}
+    return render(req,'dashboard.html',{'data':data,'query':'query'})

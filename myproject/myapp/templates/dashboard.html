@@ -1,4 +1,16 @@
-<h1>Welome to dashboard</h1>
+<h1>Welome to dashboard</h1> 
+{% comment %} <button type="submit"><a href="{% url 'logout'%}"></a></button> {% endcomment %}
 welcome {{dataa.name}}
 {{data.image.url}}
 <img src="{{data.image.url}}" alt="">
+
+<button><a href="{% url 'query' %}">Query</a></button>
+{% if query %}
+<form action="" method="post"></form>
+Name:{{dataa.name}}
+Query: <input type="text" placeholder="Enter you query">
+
+{% else %}
+{% endif %}
+
+<button><a href="{% url 'logout'%}"></a></button>
