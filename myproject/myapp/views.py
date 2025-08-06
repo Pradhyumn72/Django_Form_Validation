@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Student
+from .models import Student,queryy
 from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
@@ -65,15 +65,19 @@ def login(req):
         return render(req,'login.html')
         
 def dashboard(req):
+    data=req.session.get('id',None )
     # pk=req.GET.get('id')
-    pk=req.session['id']
-    user=Student.objects.get(id=pk)
-    data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
-    return render(req,'dashboard.html',{'data':data})
-    # we use filter in login as we want empty output in order to print the error message if we take get then code will not be read and error will be displayed
-        # print(name,e,c,i,d,sep=",")
-        # Student.objects.create(firstname=name,email=e,contact=c,image=i,document=d)
-        # return HttpResponse("registration done")
+    if data:
+        pk=req.session['id']
+        user=Student.objects.get(id=pk)
+        data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+        return render(req,'dashboard.html',{'data':data})
+        # we use filter in login as we want empty output in order to print the error message if we take get then code will not be read and error will be displayed
+            # print(name,e,c,i,d,sep=",")
+            # Student.objects.create(firstname=name,email=e,contact=c,image=i,document=d)
+            # return HttpResponse("registration done")
+    else:
+        return redirect('login')
 
 # delete: key
 # flush: whole session
@@ -81,8 +85,32 @@ def logout(req):
     req.session.flush()
     return redirect('landing')
 
-def Query(req):
+def query(req):
+    data=req.session.get('id',None)
+    if data:
+        pk=req.session['id']
+        user=Student.objects.get(id=pk)
+        data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'password':user.password}
+        return render(req,'dashboard.html',{'data':data,'query':'query'})
+    else:
+        return redirect('login')
+    
+def querydata(req):
+    if req.method=='POST':
+        n=req.POST.get('name')
+        e=req.POST.get('email')
+        q=req.POST.get('query')
+        print(n,e,q)
+        queryy.objects.create(name=n,email=e,query=q)
+        pk=req.session['id']
+        user=Student.objects.get(id=pk)
+        data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+        return render(req,'dashboard.html',{'data':data})
+    
+def showquery(req):
     pk=req.session['id']
     user=Student.objects.get(id=pk)
-    data={'name':user.firstname}
-    return render(req,'dashboard.html',{'data':data,'query':'query'})
+    data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+    e=user.email    
+    allquery=queryy.objects.filter(email=e)
+    return render(req,'dashboard.html',{'data':data},{'allquery':allquery})

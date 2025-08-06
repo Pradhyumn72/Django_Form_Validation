@@ -27,9 +27,11 @@ urlpatterns = [
     path('', views.landing,name='landing'),
     path('register/',views.register,name='register'),
     path('login/',views.login,name='login'),
-    path('dashboard/',views.dashboard,name='dashboard'),
-    path('logout',views.logout,name='logout'),
-    path('login/dashboard/query',views.Query,name='Query'),
+    path('login/dashboard/',views.dashboard,name='dashboard'),
+    path('logout/',views.logout,name='logout'),
+    path('login/dashboard/query',views.query,name='query'),
+    path('login/dashboard/querydata',views.querydata,name='Querydata'),
+    path('login/dashboard/querydata/showquery',views.showquery,name='showquery'),
     
     
     

@@ -1,16 +1,47 @@
 <h1>Welome to dashboard</h1> 
-{% comment %} <button type="submit"><a href="{% url 'logout'%}"></a></button> {% endcomment %}
-welcome {{dataa.name}}
-{{data.image.url}}
-<img src="{{data.image.url}}" alt="">
+
+Hello {{data.name}} your details are as follows
+{{data.contact}}
+{{data.password}}
+<img src="{{data.image.url}}" alt="" height="200px" width="200px">
 
 <button><a href="{% url 'query' %}">Query</a></button>
+<button><a href="{% url 'logout' %}">Logout</a></button>
+<button><a href="{% url 'showquery' %}">Showquery</a></button>
 {% if query %}
-<form action="" method="post"></form>
-Name:{{dataa.name}}
-Query: <input type="text" placeholder="Enter you query">
+<form action="{%url 'Querydata' %}" method="post">
+{% csrf_token %}
+Name: <input type="text" name="name" value="{{data.name}}" ><br>
+Email: <input type="email" name="email" value="{{data.email}}" readonly><br>
+Query: <input type="text" name="query" placeholder="Enter you query" >
 
-{% else %}
+<button type="submit" >Submit</button>
+</form>
 {% endif %}
 
-<button><a href="{% url 'logout'%}"></a></button>
+{% if allquery %}
+<table>
+<tr>
+    <th>S.no</th>
+    <th>id</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Query</th>
+    <th><a href="">Edit</a></th>
+    <th><a href="">Delete</a></th>
+</tr>
+</table>
+{% for i in allquery %}
+<tr>
+<td>{{forloop.counter}}</td>
+<td>{{i.id}}</td>
+<td>{{i.name}}</td>
+<td>{{i.email}}</td>
+<td>{{i.query}}</td>
+<td><a href="">{{i.edit}}</a></td>
+<td><a href="">{{i.delete}}</a></td>
+</tr>
+{% endfor %}
+
+
+{% endif allquery %}
