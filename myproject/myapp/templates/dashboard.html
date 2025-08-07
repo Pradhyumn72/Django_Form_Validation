@@ -7,11 +7,19 @@ Hello {{data.name}} your details are as follows
 
 <button><a href="{% url 'query' %}">Query</a></button>
 <button><a href="{% url 'logout' %}">Logout</a></button>
-<button><a href="{% url 'showquery' %}">Showquery</a></button>
-{% if query %}
-<form action="{%url 'Querydata' %}" method="post">
+<button type="submit"><a href="{% url 'showqueryy' %}">Showquery</a></button>
+
+
+<form action="{% url 'search' %}" method="post">
 {% csrf_token %}
-Name: <input type="text" name="name" value="{{data.name}}" ><br>
+<input type="search" name="search" >
+<button type="submit" >Search </button>
+</form>
+
+{% if query %}
+<form action="{% url 'Querydata' %}" method="post">
+{% csrf_token %}
+Name: <input type="text" name="name" value="{{data.name}}" readonly><br>
 Email: <input type="email" name="email" value="{{data.email}}" readonly><br>
 Query: <input type="text" name="query" placeholder="Enter you query" >
 
@@ -19,29 +27,40 @@ Query: <input type="text" name="query" placeholder="Enter you query" >
 </form>
 {% endif %}
 
-{% if allquery %}
+{% if allqueryy %}
 <table>
-<tr>
-    <th>S.no</th>
-    <th>id</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Query</th>
-    <th><a href="">Edit</a></th>
-    <th><a href="">Delete</a></th>
-</tr>
+    <tr>
+        <th>S.no</th>
+        <th>id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Query</th>
+        <th><a href="">Edit</a></th>
+        <th><a href="">Delete</a></th>
+    </tr>
+
+
+    {% for i in allqueryy %}
+    <tr>
+    <td>{{forloop.counter}}</td>
+    <td>{{i.id}}</td>
+    <td>{{i.name}}</td>
+    <td>{{i.email}}</td>
+    <td>{{i.query}}</td>
+    <td><a href="{% url 'edit' qpk=i.id %}">Edit</a></td>
+    <td><a href="{% url 'delete' qpk=i.id %}">Delete</a></td>
+
+    </tr>
+    {% endfor %}
 </table>
-{% for i in allquery %}
-<tr>
-<td>{{forloop.counter}}</td>
-<td>{{i.id}}</td>
-<td>{{i.name}}</td>
-<td>{{i.email}}</td>
-<td>{{i.query}}</td>
-<td><a href="">{{i.edit}}</a></td>
-<td><a href="">{{i.delete}}</a></td>
-</tr>
-{% endfor %}
+{% endif %}
 
-
-{% endif allquery %}
+{% if edit %}
+<form action="{% url 'edit' qpk=edit.id %}" method="post">
+{% csrf_token %}
+Name: <input type="text" name="" value="{{edit.name}}"> <br>
+Email: <input type="text" name="email" value="{{edit.email}}"> <br>
+Query: <input type="text" name="" value="{{edit.query}}"> <br>
+<button type="submit">Update</button>
+</form>
+{% endif %}

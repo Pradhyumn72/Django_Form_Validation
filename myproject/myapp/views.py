@@ -100,17 +100,68 @@ def querydata(req):
         n=req.POST.get('name')
         e=req.POST.get('email')
         q=req.POST.get('query')
-        print(n,e,q)
         queryy.objects.create(name=n,email=e,query=q)
         pk=req.session['id']
         user=Student.objects.get(id=pk)
         data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
         return render(req,'dashboard.html',{'data':data})
     
-def showquery(req):
+def showqueryy(req):
+    print("Hello...")
     pk=req.session['id']
     user=Student.objects.get(id=pk)
     data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
     e=user.email    
-    allquery=queryy.objects.filter(email=e)
-    return render(req,'dashboard.html',{'data':data},{'allquery':allquery})
+    allqueryy=queryy.objects.filter(email=e)
+    return render(req,'dashboard.html',{'data':data,'allqueryy':allqueryy}) 
+# " " use this cautiously in using dict to transfer data as it may cause dowloading of file when button is clicked...
+
+def delete(req,qpk):
+    data=queryy.objects.get(id=qpk)
+    data.delete()
+    pk=req.session['id']
+    user=Student.objects.get(id=pk)
+    data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+    e=user.email
+    allqueryy = queryy.objects.filter(email=e)
+    return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy})
+
+def edit(req,qpk):
+    olddata=queryy.objects.get(id=qpk)
+    pk=req.session['id']
+    user=Student.objects.get(id=pk)
+    e=user.email
+    allqueryy=queryy.objects.filter(email=e)
+    user=Student.objects.get(id=qpk)
+    data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+    return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy})
+
+    
+
+def update(req,qpk):
+    if req.method=='POST':
+        oldata=queryy.objects.get(id=qpk)
+        updated_query=req.POST.get('query')
+        oldata.query=updated_query
+        oldata.save()
+        pk=req.session['id']
+        user=Student.objects.get(id=pk)
+        data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+        e=user.email
+        allqueryy=queryy.objects.filter(email=e)
+        return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy})
+def search(req):
+    if req.method=='POST':
+        search_value=req.POST.get('search')
+        pk=req.session['id']
+        user=Student.objects.get(id=pk)
+        e = user.email
+        data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+        allqueryy=queryy.objects.filter(query__icontains=search_value,email__icontains=e)
+        return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy})
+
+
+
+    
+
+        

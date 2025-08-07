@@ -29,9 +29,13 @@ urlpatterns = [
     path('login/',views.login,name='login'),
     path('login/dashboard/',views.dashboard,name='dashboard'),
     path('logout/',views.logout,name='logout'),
-    path('login/dashboard/query',views.query,name='query'),
-    path('login/dashboard/querydata',views.querydata,name='Querydata'),
-    path('login/dashboard/querydata/showquery',views.showquery,name='showquery'),
+    path('login/dashboard/query/',views.query,name='query'),
+    path('login/dashboard/querydata/',views.querydata,name='Querydata'),
+    path('login/dashboard/querydata/showquery/',views.showqueryy,name='showqueryy'),
+    path('login/dashboard/search/',views.search,name='search'),
+    path('login/dashboard/querydata/delete/<int:qpk>/',views.delete,name='delete'),
+    path('login/dashboard/querydata/showquery/edit/<int:qpk>/',views.edit,name='edit'),
+    path('login/dashboard/querydata/showquery/update/<int:qpk>/',views.update,name='update'),
     
     
     
