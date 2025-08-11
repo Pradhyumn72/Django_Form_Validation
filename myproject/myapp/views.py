@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import Student,queryy
+from django.db.models import Q
 from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
@@ -157,8 +158,11 @@ def search(req):
         user=Student.objects.get(id=pk)
         e = user.email
         data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
-        allqueryy=queryy.objects.filter(query__icontains=search_value,email__icontains=e)
-        return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy})
+        # allqueryy=queryy.objects.filter(query__icontains=search_value,email__icontains=e) # (,) comma depicts and operations
+        # for or operations we have imported Q from django.db.models
+        allqueryy=queryy.objects.filter((Q(query__icontains=search_value)| Q(name__icontains=search_value)),email__icontains=e)
+        # instead of icontains we can use exact also to find the exact word 
+        return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy,'sv':search_value})
 
 
 

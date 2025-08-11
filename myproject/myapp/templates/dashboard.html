@@ -12,7 +12,7 @@ Hello {{data.name}} your details are as follows
 
 <form action="{% url 'search' %}" method="post">
 {% csrf_token %}
-<input type="search" name="search" >
+<input type="search" name="search" value="{{sv}}">
 <button type="submit" >Search </button>
 </form>
 
@@ -28,6 +28,10 @@ Query: <input type="text" name="query" placeholder="Enter you query" >
 {% endif %}
 
 {% if allqueryy %}
+<input type="search" name="search" placeholder="search by name" >
+<input type="search" name="search" placeholder="search by email" >
+<input type="search" name="search" placeholder="search by query" >
+<button type="submit">Search</button>
 <table>
     <tr>
         <th>S.no</th>
