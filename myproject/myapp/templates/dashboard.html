@@ -28,9 +28,12 @@ Query: <input type="text" name="query" placeholder="Enter you query" >
 {% endif %}
 
 {% if allqueryy %}
-<input type="search" name="search" placeholder="search by name" >
-<input type="search" name="search" placeholder="search by email" >
-<input type="search" name="search" placeholder="search by query" >
+<form action="{% url 'byname' %}">
+<input type="search" name="search" placeholder="search by name" ></form>
+<form action="{% url 'byemail' %}">
+<input type="search" name="search" placeholder="search by email" ></form>
+<form action="{% url 'byquery' %}">
+<input type="search" name="search" placeholder="search by query" ></form>
 <button type="submit">Search</button>
 <table>
     <tr>
@@ -39,8 +42,8 @@ Query: <input type="text" name="query" placeholder="Enter you query" >
         <th>Name</th>
         <th>Email</th>
         <th>Query</th>
-        <th><a href="">Edit</a></th>
-        <th><a href="">Delete</a></th>
+        <th><a href="{% url 'edit' qpk=i.id %}">Edit</a></th>
+        <th><a href="{% url 'delete' qpk=i.id %}">Delete</a></th>
     </tr>
 
 
