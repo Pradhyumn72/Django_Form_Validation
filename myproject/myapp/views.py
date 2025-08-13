@@ -161,8 +161,39 @@ def search(req):
         # allqueryy=queryy.objects.filter(query__icontains=search_value,email__icontains=e) # (,) comma depicts and operations
         # for or operations we have imported Q from django.db.models
         allqueryy=queryy.objects.filter((Q(query__icontains=search_value)| Q(name__icontains=search_value)),email__icontains=e)
-        # instead of icontains we can use exact also to find the exact word 
+        # instead of icontains we can use iexact also to find the exact word 
         return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy,'sv':search_value})
+    
+def byname(req):
+    if req.method=='POST':
+        search_value=req.POST.get('search')
+        pk=req.session['id']
+        user=Student.objects.get(id=pk)
+        e = user.email
+        data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+        allqueryy=queryy.objects.filter(Q(name__iexact=search_value))
+        return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy,'sv':search_value})
+    
+def byemail(req):
+    if req.method=='POST':
+        search_value=req.POST.get('search')
+        pk=req.session['id']
+        user=Student.objects.get(id=pk)
+        e = user.email
+        data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+        allqueryy=queryy.objects.filter(Q(email__iexact=search_value))
+        return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy,'sv':search_value})
+
+def byquery(req):
+    if req.method=='POST':
+        search_value=req.POST.get('search')
+        pk=req.session['id']
+        user=Student.objects.get(id=pk)
+        e = user.email
+        data={'name':user.firstname,'email':user.email,'contact':user.contact,'image':user.image,'document':user.document,'password':user.password}
+        allqueryy=queryy.objects.filter(Q(query__iexact=search_value))
+        return render(req, 'dashboard.html',{'data':data, 'allqueryy':allqueryy,'sv':search_value})
+
 
 
 
